@@ -58,7 +58,7 @@ while [ "${#TRUERANDOM}" -lt "$LENGTH" ]; do
   if [ "$i" -lt "${#VAR}" ]; then
 ####Adding the third layer of random (jumping from chars of array :)
     JUMP=$(gshuf -i 1-"$LENGTH" -n 1)
-    i=$(("$i"+"$JUMP"));
+    i=$((echo "$i+$JUMP" | bc));
     if [ "$i" -ge "${#VAR}" ]; then
       i=$(gshuf -i 0-"$LENGTH" -n 1);
 ######VAR=$(echo $VAR | rev) - if you want to reverse order of array
