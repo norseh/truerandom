@@ -5,14 +5,14 @@
 # echo "example 3: $0 4 - for a PIN of 4 digits"
 
 DEFAULTLENGTH=6
-HASH=sha512sum
+HASH="shasum -a 512"
 #Generating a random not only time based
 #Difficulting the attacker's life
 RANDOMIZER=$(echo $RANDOM)
-RANDOMIZER=$RANDOMIZER$(cat /proc/uptime)
-RANDOMIZER=$RANDOMIZER$(cat /proc/loadavg)
+RANDOMIZER=$RANDOMIZER$(sysctl -n kern.boottime)
+RANDOMIZER=$RANDOMIZER$(sysctl -n vm.loadavg)
 #RANDOMIZER=$RANDOMIZER$(tcpdump -nnnnAs0 -i any -c 1 2>/dev/null)
-RANDOMIZER=$RANDOMIZER$(cat /proc/softirqs)
+RANDOMIZER=$RANDOMIZER$(sysctl -n machdep)
 
 #Verifying if the length of token was setted. If not 6 digits are default
 [[ -z $1 ]] && LENGTH=$DEFAULTLENGTH || LENGTH=$1
@@ -38,29 +38,29 @@ if [ ${#VAR} -lt $ARRAYLENGTH ]; then
 fi
 
 #Debug mode :)
-#echo "Randomizer: $RANDOMIZER" 
+#echo "Randomizer: $RANDOMIZER"
 #echo "Var com ${#VAR} caracteres: $VAR"
 
 #Declaring the variable TRUERANDOM to get length 0 (zero)
 TRUERANDOM=""
 
-i=$(shuf -i 1-${#VAR} -n 1)
+i=$(gshuf -i 1-${#VAR} -n 1)
 while [ ${#TRUERANDOM} -lt $LENGTH ]; do
 ##Sorting the chars to choose (second random and not so easy to guess)
-  BIN=$(shuf -i 0-1 -n 1)
+  BIN=$(gshuf -i 0-1 -n 1)
   if [ $BIN -eq 1 ]; then
     TRUERANDOM=$TRUERANDOM${VAR:$i:1}
     #echo "escolhido caracter $i"
   fi
 ##If we see all chars and unfortunately the token
 ##does not reach the desired length we start again
-##from first char to give a second chance to them :) 
+##from first char to give a second chance to them :)
   if [ $i -lt ${#VAR} ]; then
 ####Adding the third layer of random (jumping from chars of array :)
-    JUMP=$(shuf -i 1-$LENGTH -n 1)
+    JUMP=$(gshuf -i 1-$LENGTH -n 1)
     i=$(($i+$JUMP));
     if [ $i -ge ${#VAR} ]; then
-      i=$(shuf -i 0-$LENGTH -n 1);
+      i=$(gshuf -i 0-$LENGTH -n 1);
 ######VAR=$(echo $VAR | rev) - if you want to reverse order of array
 ######not recommended because if you revert the same index have more probability to be choosen
       #echo "reiniciando varredura no vetor devido JUMP...";
