@@ -44,23 +44,23 @@ fi
 #Declaring the variable TRUERANDOM to get length 0 (zero)
 TRUERANDOM=""
 
-i=$(gshuf -i 1-${#VAR} -n 1)
-while [ ${#TRUERANDOM} -lt $LENGTH ]; do
+i=$(gshuf -i 1-"${#VAR}" -n "1")
+while [ "${#TRUERANDOM}" -lt "$LENGTH" ]; do
 ##Sorting the chars to choose (second random and not so easy to guess)
   BIN=$(gshuf -i 0-1 -n 1)
-  if [ $BIN -eq 1 ]; then
-    TRUERANDOM=$TRUERANDOM${VAR:$i:1}
+  if [ "$BIN" -eq "1" ]; then
+    TRUERANDOM="$TRUERANDOM${VAR:$i:1}"
     #echo "escolhido caracter $i"
   fi
 ##If we see all chars and unfortunately the token
 ##does not reach the desired length we start again
 ##from first char to give a second chance to them :)
-  if [ $i -lt ${#VAR} ]; then
+  if [ "$i" -lt "${#VAR}" ]; then
 ####Adding the third layer of random (jumping from chars of array :)
-    JUMP=$(gshuf -i 1-$LENGTH -n 1)
-    i=$(($i+$JUMP));
-    if [ $i -ge ${#VAR} ]; then
-      i=$(gshuf -i 0-$LENGTH -n 1);
+    JUMP=$(gshuf -i 1-"$LENGTH" -n 1)
+    i=$(("$i"+"$JUMP"));
+    if [ "$i" -ge "${#VAR}" ]; then
+      i=$(gshuf -i 0-"$LENGTH" -n 1);
 ######VAR=$(echo $VAR | rev) - if you want to reverse order of array
 ######not recommended because if you revert the same index have more probability to be choosen
       #echo "reiniciando varredura no vetor devido JUMP...";
@@ -68,9 +68,9 @@ while [ ${#TRUERANDOM} -lt $LENGTH ]; do
     fi
 #    echo "salto: $i";
   else
-    i=$(shuf -i 0-$LENGTH -n 1)
+    i=$(gshuf -i 0-"$LENGTH" -n 1)
 #    echo "reiniciando varredura no vetor..."
   fi
 done
 
-echo $TRUERANDOM
+echo "$TRUERANDOM"
