@@ -13,6 +13,7 @@ RANDOMIZER=$RANDOMIZER$(cat /proc/uptime)
 RANDOMIZER=$RANDOMIZER$(cat /proc/loadavg)
 #RANDOMIZER=$RANDOMIZER$(tcpdump -nnnnAs0 -i any -c 1 2>/dev/null)
 RANDOMIZER=$RANDOMIZER$(cat /proc/softirqs)
+RANDOMIZER=$RANDOMIZER$(od -va -N80 -tu4 < /dev/random)
 
 #Verifying if the length of token was setted. If not 6 digits are default
 [[ -z $1 ]] && LENGTH=$DEFAULTLENGTH || LENGTH=$1
@@ -38,7 +39,7 @@ if [ ${#VAR} -lt $ARRAYLENGTH ]; then
 fi
 
 #Debug mode :)
-#echo "Randomizer: $RANDOMIZER" 
+#echo "Randomizer: $RANDOMIZER"
 #echo "Var com ${#VAR} caracteres: $VAR"
 
 #Declaring the variable TRUERANDOM to get length 0 (zero)
@@ -54,7 +55,7 @@ while [ ${#TRUERANDOM} -lt $LENGTH ]; do
   fi
 ##If we see all chars and unfortunately the token
 ##does not reach the desired length we start again
-##from first char to give a second chance to them :) 
+##from first char to give a second chance to them :)
   if [ $i -lt ${#VAR} ]; then
 ####Adding the third layer of random (jumping from chars of array :)
     JUMP=$(shuf -i 1-$LENGTH -n 1)
