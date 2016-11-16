@@ -19,7 +19,7 @@ RANDOMIZER=$RANDOMIZER$(od -va -N80 -tu4 < /dev/random)
 [[ -z $1 ]] && LENGTH=$DEFAULTLENGTH || LENGTH=$1
 
 #Verifying debug mode
-[[ -z $2 ]] && DEBUG="ON" || DEBUG="OFF"
+[[ -z $2 ]] && DEBUG="OFF" || DEBUG="ON"
 
 ARRAYLENGTH=$(($LENGTH * $LENGTH))
 #echo $ARRAYLENGTH
