@@ -38,7 +38,7 @@ if [ ${#VAR} -lt $ARRAYLENGTH ]; then
   done
 fi
 
-if [ "$DEBUG" -eq "ON" ]; then
+if [ "$DEBUG" = "ON" ]; then
   #Debug mode
   echo "$ARRAYLENGTH"
   echo "Randomizer: $RANDOMIZER"
@@ -49,13 +49,13 @@ fi
 TRUERANDOM=""
 
 i=$(gshuf -i 1-"${#VAR}" -n "1")
-if [ "$DEBUG" -eq "ON" ]; then echo "We are starting from $i th char to compose the token";fi
+if [ "$DEBUG" = "ON" ]; then echo "We are starting from $i th char to compose the token";fi
 while [ "${#TRUERANDOM}" -lt "$LENGTH" ]; do
 ##Sorting the chars to choose (second random and not so easy to guess)
   BIN=$(gshuf -i 0-1 -n 1)
   if [ "$BIN" -eq "1" ]; then
     TRUERANDOM="$TRUERANDOM${VAR:$i:1}"
-    if [ "$DEBUG" -eq "ON" ]; then echo "Choosen char: $i to compose the token";fi
+    if [ "$DEBUG" = "ON" ]; then echo "Choosen char: $i to compose the token";fi
   fi
 ##If we see all chars and unfortunately the token
 ##does not reach the desired length we start again
@@ -68,12 +68,12 @@ while [ "${#TRUERANDOM}" -lt "$LENGTH" ]; do
       i=$(gshuf -i 0-"$LENGTH" -n 1);
 ######VAR=$(echo $VAR | rev) - if you want to reverse order of array
 ######not recommended because if you revert the same index have more probability to be choosen
-if [ "$DEBUG" -eq "ON" ]; then echo "Restarting the search on array...";fi
+if [ "$DEBUG" = "ON" ]; then echo "Restarting the search on array...";fi
     fi
-    if [ "$DEBUG" -eq "ON" ]; then echo "Jumping to $i th char";fi
+    if [ "$DEBUG" = "ON" ]; then echo "Jumping to $i th char";fi
   else
     i=$(gshuf -i 0-"$LENGTH" -n 1)
-    if [ "$DEBUG" -eq "ON" ]; then echo "Restarting the search on array...";fi
+    if [ "$DEBUG" = "ON" ]; then echo "Restarting the search on array...";fi
   fi
 done
 
