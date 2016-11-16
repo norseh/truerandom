@@ -13,6 +13,7 @@ RANDOMIZER=$RANDOMIZER$(sysctl -n kern.boottime)
 RANDOMIZER=$RANDOMIZER$(sysctl -n vm.loadavg)
 #RANDOMIZER=$RANDOMIZER$(tcpdump -nnnnAs0 -i any -c 1 2>/dev/null)
 RANDOMIZER=$RANDOMIZER$(sysctl -n machdep)
+RANDOMIZER=$RANDOMIZER$(od -va -N80 -tu4 < /dev/random)
 
 #Verifying if the length of token was setted. If not 6 digits are default
 [[ -z $1 ]] && LENGTH=$DEFAULTLENGTH || LENGTH=$1
