@@ -11,7 +11,7 @@ HASH=sha512sum
 RANDOMIZER=$(echo $RANDOM)
 RANDOMIZER=$RANDOMIZER$(cat /proc/uptime)
 RANDOMIZER=$RANDOMIZER$(cat /proc/loadavg)
-#RANDOMIZER=$RANDOMIZER$(tcpdump -nnnnAs0 -i any -c 1 2>/dev/null)
+#RANDOMIZER=$RANDOMIZER$(tcpdump -nnnnAs0 -i any -c 1 2>/dev/null) #not recommendeb because time to wait
 RANDOMIZER=$RANDOMIZER$(cat /proc/softirqs)
 RANDOMIZER=$RANDOMIZER$(od -va -N80 -tu4 < /dev/random)
 
@@ -28,8 +28,8 @@ VAR=$(echo $RANDOMIZER | $HASH | tr -dc '0-9')
 
 #Validating if the token length requested is bigger that
 #the number of numeric digits from hash
+#if it is insufficient we made a new hash and concatenate the numbers with the existent array
 if [ ${#VAR} -lt $ARRAYLENGTH ]; then
-##echo $(($LENGTH * 2)) - we fucked the code here
   h=1
   while [ ${#VAR} -lt $ARRAYLENGTH ]; do
     VAR=$VAR$(echo $VAR | $HASH | tr -dc '0-9')
