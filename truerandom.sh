@@ -38,20 +38,24 @@ if [ ${#VAR} -lt $ARRAYLENGTH ]; then
   done
 fi
 
-#Debug mode :)
-#echo "Randomizer: $RANDOMIZER"
-#echo "Var com ${#VAR} caracteres: $VAR"
-
+if [ $DEBUG -eq "ON" ]; then
+  #Debug mode
+  echo $ARRAYLENGTH
+  echo "Randomizer: $RANDOMIZER"
+  echo "Initial length: ${#VAR}"
+  echo "Initial chars: $VAR"
+fi
 #Declaring the variable TRUERANDOM to get length 0 (zero)
 TRUERANDOM=""
 
 i=$(gshuf -i 1-"${#VAR}" -n "1")
+if [ $DEBUG -eq "ON" ]; then echo "We are starting from $i th char to compose the token";fi
 while [ "${#TRUERANDOM}" -lt "$LENGTH" ]; do
 ##Sorting the chars to choose (second random and not so easy to guess)
   BIN=$(gshuf -i 0-1 -n 1)
   if [ "$BIN" -eq "1" ]; then
     TRUERANDOM="$TRUERANDOM${VAR:$i:1}"
-    #echo "escolhido caracter $i"
+    if [ $DEBUG -eq "ON" ]; then echo "Choosen char: $i to compose the token";fi
   fi
 ##If we see all chars and unfortunately the token
 ##does not reach the desired length we start again
@@ -64,13 +68,13 @@ while [ "${#TRUERANDOM}" -lt "$LENGTH" ]; do
       i=$(gshuf -i 0-"$LENGTH" -n 1);
 ######VAR=$(echo $VAR | rev) - if you want to reverse order of array
 ######not recommended because if you revert the same index have more probability to be choosen
-      #echo "reiniciando varredura no vetor devido JUMP...";
+if [ $DEBUG -eq "ON" ]; then echo "Restarting the search on array...";fi
 ######echo "$VAR"
     fi
-#    echo "salto: $i";
+    if [ $DEBUG -eq "ON" ]; then echo "Jumping to $i th char";fi
   else
     i=$(gshuf -i 0-"$LENGTH" -n 1)
-#    echo "reiniciando varredura no vetor..."
+    if [ $DEBUG -eq "ON" ]; then echo "Restarting the search on array...";fi
   fi
 done
 
